@@ -1,15 +1,17 @@
 let express = require('express');
 let app = express();  //initializing an app with express
 let bodyParser = require('body-parser');
-let defaultRoutes = require('./api-routes/default-route');
+let defaultRoutes = require('./api-routes/all-routes');
 let itemRoutes = require('./api-routes/item-routes');
 let mongoose = require('mongoose');
-var db=mongoose.connect('mongodb://localhost/', { useNewUrlParser: true});
-if(!db)
-    console.log("Error connecting db");
-else
-    console.log("Db connected successfully");
-
+var db = mongoose.connect('mongodb://localhost:27017/cart-items-db',  { useNewUrlParser: true });
+if(!db){
+  console.log("Error connecting db");
+}  
+else{
+  console.log("Db connected successfully");
+}
+  
 var port=process.env.port || 3001; //initializing a port
 
 //msg to the default url i.e "/"
@@ -17,7 +19,7 @@ app.get('/',(req,res) => res.send("Hello !! welcome to the cart api"));
 
 //configuered to handle post requests ...no need to use 
 app.use(bodyParser.urlencoded({
-    extended: true
+  extended: true
 }));
 app.use(bodyParser.json());
 
@@ -26,7 +28,7 @@ app.use('/api', defaultRoutes);
 
 //listen to the port
 app.listen(port,function(){
-    console.log("listening on port",port);
+  console.log("listening on port",port);
 })
 
 
